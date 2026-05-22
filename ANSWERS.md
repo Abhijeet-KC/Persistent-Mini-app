@@ -70,12 +70,12 @@ pnpm run dev
 
 ## 5. Honest Gap
 
-**The Gap:** There is **no responsive web design for mobile phones**. The UI layouts, navigation, and flashcard components were rapidly scaffolded for desktop resolutions. Viewing this app on a mobile device will result in a cramped menu, overflowing grids, and a squished or broken Study Mode interface.
+**The Gaps:** 
+1. **Study Mode Logic:** The shuffling logic scales poorly and doesn't genuinely track learning progress. It naively pulls all flashcards and randomly shuffles them in React state, completely ignoring the "Easy/Medium/Hard" difficulty rating when selecting subsequent cards.
+2. **Mobile Responsiveness:** The UI was rapidly scaffolded for desktop and lacks responsive design. Viewing it on a phone results in overflowing grids and a cramped navigation menu.
 
 **How I would improve it:**
-If I had another day, I would systematically refactor the application to be fully mobile-responsive, adhering to a "mobile-first" layout methodology.
+If I had another day, I would systematically address both issues:
 
-- **Fix implementation:** I would leverage Tailwind's responsive screen modifier utility classes (`md:`, `lg:`). Specifically:
-  1. I would shift the main `grid` layouts into single-column `flex-col` layouts on small screens, swapping to grids only on `md:` breakpoints or larger.
-  2. Implement a hamburger menu to hide the bulky sidebar navigation behind a toggle on cellphones.
-  3. Ensure that touch targets on the flashcards, delete buttons, and forms are sufficiently sized (min `44px`) for thumb-tapping.
+- **Fixing Study Mode (Spaced Repetition):** I would implement an algorithm like SuperMemo-2 or Anki's logic. I'd add a `CardReviews` table tracking the next scheduled review date and ease factor for each card. The backend would then provide a `GET /flashcards/due` endpoint that intelligently returns only the cards the user is at risk of forgetting today, ordered by urgency.
+- **Fixing Responsiveness:** I would refactor the layout using Tailwind's responsive screen modifiers (`md:`, `lg:`), collapsing the desktop grids into single-column layouts on small screens and hiding the bulky sidebar behind a simple hamburger menu toggle.
